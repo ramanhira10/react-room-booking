@@ -2,84 +2,86 @@ import React, {Component} from 'react';
 import RoomComponent from '../RoomComponent/RoomComponent';
 import './RoomList.css';
 
+const roomListStorage = [{
+  id: 1,
+  name: 'Room 1',
+  adults: 2,
+  childs: 2,
+  isBooked: false
+}, {
+  id: 2,
+  name: 'Room 2',
+  adults: 2,
+  childs: 2,
+  isBooked: false
+}, {
+  id: 3,
+  name: 'Room 3',
+  adults: 2,
+  childs: 2,
+  isBooked: false
+}, {
+  id: 4,
+  name: 'Room 4',
+  adults: 2,
+  childs: 2,
+  isBooked: false
+}]
+localStorage.setItem('roomList', JSON.stringify(roomListStorage));
+
 class RoomList extends Component {
   
     state = {
-      roomList: [
-        {
-          id: 1,
-          name: 'Room 1',
-          adults: 2,
-          childs: 2,
-          isBooked: false
-        }, {
-          id: 2,
-          name: 'Room 2',
-          adults: 2,
-          childs: 2,
-          isBooked: false
-        }, {
-          id: 3,
-          name: 'Room 3',
-          adults: 2,
-          childs: 2,
-          isBooked: false
-        }, {
-          id: 4,
-          name: 'Room 4',
-          adults: 2,
-          childs: 2,
-          isBooked: false
-        }
-      ]
+      roomList: []
     };
+
+    componentWillMount () {
+
+      this.setState({
+        roomList: JSON.parse(localStorage.getItem('roomList'))
+      });
+    }
     
     handleOnSubmit = (event) => {
       event.preventDefault();
-      console.log(this.state);
+
+      alert(JSON.stringify(this.state));
+      localStorage.setItem('roomList', JSON.stringify(this.state.roomList));
+    }
+
+    updateState = (roomIndex, objToUpdate) => {
+      
+      let _roomList = [...this.state.roomList];
+      
+      _roomList[roomIndex] = Object.assign({}, _roomList[roomIndex], objToUpdate);
+
+      this.setState({
+          roomList: _roomList
+      });
     }
     
     onBookingChanged = (roomIndex, isBooked) => {
-        
-      let _roomList = [...this.state.roomList];
-      
-      _roomList[roomIndex] = Object.assign({}, _roomList[roomIndex], {
+
+      this.updateState(roomIndex, {
         isBooked: isBooked
       });
-      
-      this.setState({
-          roomList: _roomList
-      });
     }
-    
+
     onAdultsChanged = (roomIndex, numberOfAdults) => {
       
-      let _roomList = [...this.state.roomList];
-      
-      _roomList[roomIndex] = Object.assign({}, _roomList[roomIndex], {
+      this.updateState(roomIndex, {
         adults: numberOfAdults
-      });
-      
-      this.setState({
-          roomList: _roomList
       });
     }
     
     onChildsChanged = (roomIndex, numberOfChilds) => {
       
-      let _roomList = [...this.state.roomList];
-      
-      _roomList[roomIndex] = Object.assign({}, _roomList[roomIndex], {
+      this.updateState(roomIndex, {
         childs: numberOfChilds
-      });
-      
-      this.setState({
-          roomList: _roomList
       });
     }
     
     render () {
-      
       return (
         <div className="row room-list">
           <form onSubmit={this.handleOnSubmit}>

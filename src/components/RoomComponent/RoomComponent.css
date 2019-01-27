@@ -23,10 +23,7 @@ div.room {
     margin: 5px;
 }
 
-.room .foot {
-    margin: 5px;
-    padding: 5px;
-}
+
 
 .room .roomtitle input[type="checkbox"] {
     margin: 0 5px;
@@ -37,6 +34,3 @@ div.room {
     display: block;
 }
 
-.room button {
-    display: block;
-}
